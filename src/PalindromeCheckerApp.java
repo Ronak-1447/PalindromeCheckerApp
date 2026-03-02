@@ -1,45 +1,58 @@
 /*
  * Application Name: Palindrome Checker App
  * Version: 1.0
- * Use Case 10: Case-Insensitive & Space-Ignored Palindrome Checker
+ * Use Case 11: Object-Oriented Palindrome Service
  */
+
+import java.util.Stack;
+
+// PalindromeChecker class encapsulates palindrome logic
+class PalindromeChecker {
+
+    // Method to check palindrome using stack
+    public boolean checkPalindrome(String str) {
+
+        // Normalize string (optional: remove spaces & ignore case)
+        String normalized = str.toLowerCase().replaceAll("\\s+", "");
+
+        // Use stack to reverse characters
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < normalized.length(); i++) {
+            stack.push(normalized.charAt(i));
+        }
+
+        // Compare original vs reversed using stack
+        for (int i = 0; i < normalized.length(); i++) {
+            if (normalized.charAt(i) != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String original = "A man a plan a canal Panama";
+        String input = "Madam";
 
         System.out.println("========================================");
-        System.out.println("Palindrome Checker App - UC10");
+        System.out.println("Palindrome Checker App - UC11 (OOP)");
         System.out.println("========================================");
 
-        System.out.println("Original String: " + original);
+        System.out.println("Input String: " + input);
 
-        // Step 1: Normalize string
-        // Convert to lowercase and remove spaces using regular expression
-        String normalized = original.toLowerCase().replaceAll("\\s+", "");
+        // Create object of PalindromeChecker
+        PalindromeChecker checker = new PalindromeChecker();
 
-        System.out.println("Normalized String: " + normalized);
+        // Check palindrome using object
+        boolean result = checker.checkPalindrome(input);
 
-        // Step 2: Apply palindrome logic (Two-pointer approach)
-        boolean isPalindrome = true;
-
-        int start = 0;
-        int end = normalized.length() - 1;
-
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
-            }
-            start++;
-            end--;
-        }
-
-        // Display Result
-        if (isPalindrome) {
-            System.out.println("Result: The given string is a Palindrome (ignoring case and spaces).");
+        if (result) {
+            System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
         }
