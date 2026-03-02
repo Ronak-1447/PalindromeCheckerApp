@@ -1,48 +1,85 @@
 /*
  * Application Name: Palindrome Checker App
  * Version: 1.0
- * Use Case 7: Deque-Based Optimized Palindrome Checker
+ * Use Case 8: Linked List Based Palindrome Checker
  */
-
-import java.util.Deque;
-import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
 
+    // Node class for Singly Linked List
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
     public static void main(String[] args) {
 
-        // Original String
-        String original = "racecar";
+        String original = "level";
 
         System.out.println("========================================");
-        System.out.println("Palindrome Checker App - UC7");
+        System.out.println("Palindrome Checker App - UC8");
         System.out.println("========================================");
 
         System.out.println("Original String: " + original);
 
-        // Create Deque
-        Deque<Character> deque = new LinkedList<>();
+        // Convert string to singly linked list
+        Node head = null;
+        Node tail = null;
 
-        // Insert characters into deque
         for (int i = 0; i < original.length(); i++) {
-            deque.addLast(original.charAt(i));
-        }
+            Node newNode = new Node(original.charAt(i));
 
-        // Compare front and rear elements
-        boolean isPalindrome = true;
-
-        while (deque.size() > 1) {
-
-            char front = deque.removeFirst();  // Remove from front
-            char rear = deque.removeLast();    // Remove from rear
-
-            if (front != rear) {
-                isPalindrome = false;
-                break;
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
             }
         }
 
-        // Display Result
+        // Fast and Slow pointer to find middle
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Reverse second half (in-place reversal)
+        Node prev = null;
+        Node current = slow;
+        Node nextNode;
+
+        while (current != null) {
+            nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+
+        // Compare first half and reversed second half
+        Node firstHalf = head;
+        Node secondHalf = prev;
+
+        boolean isPalindrome = true;
+
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
+                isPalindrome = false;
+                break;
+            }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        // Display result
         if (isPalindrome) {
             System.out.println("Result: The given string is a Palindrome.");
         } else {
