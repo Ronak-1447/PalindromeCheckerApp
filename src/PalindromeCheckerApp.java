@@ -1,47 +1,50 @@
 /*
  * Application Name: Palindrome Checker App
  * Version: 1.0
- * Use Case 9: Recursive Palindrome Checker
+ * Use Case 10: Case-Insensitive & Space-Ignored Palindrome Checker
  */
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String original = "madam";
+        String original = "A man a plan a canal Panama";
 
         System.out.println("========================================");
-        System.out.println("Palindrome Checker App - UC9");
+        System.out.println("Palindrome Checker App - UC10");
         System.out.println("========================================");
 
         System.out.println("Original String: " + original);
 
-        boolean result = isPalindrome(original, 0, original.length() - 1);
+        // Step 1: Normalize string
+        // Convert to lowercase and remove spaces using regular expression
+        String normalized = original.toLowerCase().replaceAll("\\s+", "");
 
-        if (result) {
-            System.out.println("Result: The given string is a Palindrome.");
+        System.out.println("Normalized String: " + normalized);
+
+        // Step 2: Apply palindrome logic (Two-pointer approach)
+        boolean isPalindrome = true;
+
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
+        }
+
+        // Display Result
+        if (isPalindrome) {
+            System.out.println("Result: The given string is a Palindrome (ignoring case and spaces).");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
         }
 
         System.out.println("========================================");
         System.out.println("Program Ended.");
-    }
-
-    // Recursive method to check palindrome
-    public static boolean isPalindrome(String str, int start, int end) {
-
-        // Base Condition: If pointers cross or meet
-        if (start >= end) {
-            return true;
-        }
-
-        // If characters do not match
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        // Recursive Call
-        return isPalindrome(str, start + 1, end - 1);
     }
 }
