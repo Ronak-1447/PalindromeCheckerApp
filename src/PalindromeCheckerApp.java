@@ -1,44 +1,41 @@
 /*
  * Application Name: Palindrome Checker App
  * Version: 1.0
- * Use Case 4: Character Array Based Palindrome Check
+ * Use Case 5: Stack-Based Palindrome Checker
  */
+
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         // Original String
-        String original = "radar";
+        String original = "madam";
 
         System.out.println("========================================");
-        System.out.println("Palindrome Checker App - UC4");
+        System.out.println("Palindrome Checker App - UC5");
         System.out.println("========================================");
 
         System.out.println("Original String: " + original);
 
-        // Convert String to Character Array
-        char[] charArray = original.toCharArray();
+        // Create Stack
+        Stack<Character> stack = new Stack<>();
 
-        // Two-pointer approach
-        int start = 0;
-        int end = charArray.length - 1;
-
-        boolean isPalindrome = true;
-
-        while (start < end) {
-
-            if (charArray[start] != charArray[end]) {
-                isPalindrome = false;
-                break;
-            }
-
-            start++;
-            end--;
+        // Push characters into stack
+        for (int i = 0; i < original.length(); i++) {
+            stack.push(original.charAt(i));
         }
 
-        // Display Result
-        if (isPalindrome) {
+        // Pop characters and build reversed string
+        String reversed = "";
+
+        while (!stack.isEmpty()) {
+            reversed = reversed + stack.pop();
+        }
+
+        // Compare original and reversed string
+        if (original.equals(reversed)) {
             System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
